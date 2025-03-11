@@ -16,9 +16,8 @@ class BTInterface: ObservableObject {
     @Published var peripheralsData: [CBPeripheral] = [] //array that holds all peripherals scanned for
     @Published var characteristicFunctionList: [CharacteristicFunction] = [] //makes characteristics function array
     @Published var service: BluetoothService = BluetoothService.init()  //instance of bluetooth service
-    private init() {
-        
-    }
+    @Published var filterName: String = "Blue Sync Device"
+    private init() {}
 }
 @Observable
 class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
@@ -73,7 +72,7 @@ class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
         
         peripheral.delegate = BluetoothService.Peripheralmanager.shared //adds delegate
         //add checks wether device was checked
-        if !peripheral.description.contains("(null)") {//removes devices which don't have names
+        if peripheral.description.contains(BTInterface.bluetooth.filterName) {//removes devices which don't have names
             var currentInstance:Int = 0, finalInstance:Int = BTInterface.bluetooth.peripheralsData.count //setup range of the loop
             if finalInstance != 0 {
                 while (currentInstance <= finalInstance) {
@@ -150,7 +149,7 @@ class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
             }
         }
         func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: (any Error)?) {
-            if let error {
+            if error != nil {
                 print("error")
             } else {
                 print("Characteristic wrote")
