@@ -7,16 +7,46 @@
 
 import SwiftUI
 
-
 struct ContentView: View {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some View {
-        
-        
-        JoystickView()
-        
+        NavigationView {
+            VStack {
+                NavigationLink(destination: BluetoothView()) {
+                    Button(action: {}) {
+                        Image("Bluetooth")
+                    }
+                }
+                
+                Spacer()
+                
+                HStack {
+                    JoystickView()
+                    Spacer()
+                    JoystickView()
+                }
+            }
+            .navigationTitle("ControllerApp")
+        }
     }
 }
 
-#Preview {
+struct BluetoothView: View {
+    var body: some View {
+        VStack {
+            Text("Bluetooth Screen")
+                .font(.largeTitle)
+                .padding()
+            
+            Spacer()
+        }
+        .navigationTitle("Bluetooth")
+    }
+}
+#Preview{
     ContentView()
 }
+#Preview{
+    BluetoothView()
+}
+

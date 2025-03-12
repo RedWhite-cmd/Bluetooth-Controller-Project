@@ -150,7 +150,7 @@ class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
             }
         }
         func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: (any Error)?) {
-            if let error {
+            if error != nil {
                 print("error")
             } else {
                 print("Characteristic wrote")
