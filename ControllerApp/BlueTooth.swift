@@ -174,3 +174,4 @@ class CharacteristicFunction {
         return characteristic
     }
 }
+
