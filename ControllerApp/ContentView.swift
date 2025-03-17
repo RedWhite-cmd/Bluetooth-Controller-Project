@@ -82,6 +82,3 @@ struct BluetoothView: View {
     ContentView()
 }
 
-#Preview{
-    BluetoothView()
-}
