@@ -56,11 +56,14 @@ struct BluetoothView: View {
 
             List(btInterface.peripheralsData, id: \.identifier) { peripheral in
             HStack {
-                                Text(peripheral.name ?? "Unknown")
-                                Spacer()
-                                Circle()
-                                    .fill(btInterface.service.connectionColor(peripheral: peripheral))
-                                    .frame(width: 10, height: 10)
+                Text(peripheral.name ?? "Unknown")
+                
+                Spacer()
+                
+                Circle()
+                .fill(btInterface.service.connectionColor(peripheral: peripheral))
+                .frame(width: 10, height: 10)
+                
             Button(action: {btInterface.service.centralManager.connect(peripheral, options: nil)}) {Text("Connect")}
                             }
                         }
