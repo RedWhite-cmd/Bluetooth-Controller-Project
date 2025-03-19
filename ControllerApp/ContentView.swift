@@ -13,6 +13,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
+                Spacer()
                     Button(action: { goToBluetooth = true }) {
                         Image("Bluetooth")
                     }
@@ -23,12 +24,15 @@ struct ContentView: View {
                 Spacer()
                 
                 HStack {
-                    JoystickView()
+                    VStack{Spacer(); JoystickView()}
                     Spacer()
-                    JoystickView()
+                    VStack{Spacer(); VerticalSlider()}
+                    Spacer()
+                    VStack{Spacer(); VerticalSlider()}
+                    Spacer()
+                    VStack{Spacer(); JoystickView()}
                 }
             }
-            .navigationTitle("ControllerApp")
         }
     }
 }
