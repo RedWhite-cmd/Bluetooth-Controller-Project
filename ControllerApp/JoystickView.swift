@@ -33,6 +33,8 @@ struct JoystickView: View {
                             // Restrict movement within maxRadius
                             if distance <= maxRadius {
                                 dragOffset = value.translation
+                                BTInterface.bluetooth.characteristicFunctionList.first?.sendData(string: "15\(dragOffset.height)")
+                                print(dragOffset.height)
                             } else {
                                 let angle = atan2(value.translation.height, value.translation.width)
                                 dragOffset = CGSize(width: cos(angle) * maxRadius, height: sin(angle) * maxRadius)
