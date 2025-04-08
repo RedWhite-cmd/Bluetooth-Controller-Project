@@ -32,6 +32,7 @@ struct ContentView: View {
                     Spacer()
                     VStack{Spacer(); JoystickView()}
                 }
+                Spacer()
             }
         }
     }

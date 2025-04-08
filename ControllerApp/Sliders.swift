@@ -12,7 +12,8 @@ struct VerticalSlider: View {
 
     var body: some View {
         VStack {
-            Text("Value: \(Int(sliderValue))") // Display value
+            Text("\(Int(sliderValue))")
+                .font(.footnote)// Display value
             
             ZStack(alignment: .bottom) { // Align from bottom
                 RoundedRectangle(cornerRadius: 10)
@@ -24,6 +25,7 @@ struct VerticalSlider: View {
                     .foregroundColor(.blue)
                     .animation(.easeInOut, value: sliderValue)
             }
+            .contentShape(Rectangle())
             .gesture(
                 DragGesture()
                     .onChanged { value in

@@ -22,7 +22,7 @@ struct JoystickView: View {
             // Joystick knob
             Circle()
                 .fill(Color.red)
-                .frame(width: 100, height: 100)
+                .frame(width: 100, height: 50)
                 .offset(dragOffset)
                 .gesture(
                     DragGesture()
