@@ -9,8 +9,6 @@ import SwiftUI
 import os
 
 
-
-
 class BTInterface: ObservableObject {
     static var bluetooth: BTInterface = BTInterface.init()
     @Published var peripheralsData: [CBPeripheral] = [] //array that holds all peripherals scanned for

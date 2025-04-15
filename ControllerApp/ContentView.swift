@@ -9,31 +9,52 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var goToBluetooth = false
+    @State private var showGuide = true
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some View {
-        NavigationView {
-            VStack {
-                Spacer()
+        ZStack {
+            NavigationView {
+                VStack {
+                    Spacer()
+                    
                     Button(action: { goToBluetooth = true }) {
                         Image("Bluetooth")
                     }
                     .fullScreenCover(isPresented: $goToBluetooth){
                         BluetoothView()
                     }
-                
-                Spacer()
-                
-                HStack {
-                    VStack{Spacer(); JoystickView()}
+                    Button(action: {
+                        showGuide = true
+                    }) {
+                        Image(systemName: "questionmark.circle")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(.blue)
+                            .padding(.top, 10)
+                    }
+                    
+                    
+                    
                     Spacer()
-                    VStack{Spacer(); VerticalSlider()}
+                    
+                    HStack {
+                        VStack { Spacer(); JoystickView() }
+                        Spacer()
+                        VStack { Spacer(); VerticalSlider() }
+                        Spacer()
+                        VStack { Spacer(); VerticalSlider() }
+                        Spacer()
+                        VStack { Spacer(); JoystickView() }
+                    }
+                    
                     Spacer()
-                    VStack{Spacer(); VerticalSlider()}
-                    Spacer()
-                    VStack{Spacer(); JoystickView()}
                 }
-                Spacer()
             }
+            
+            if showGuide {
+                InfoOverlayView(isShowing: $showGuide)
+            }
+            
         }
     }
 }
@@ -85,8 +106,6 @@ struct BluetoothView: View {
     }
 }
 
-
 #Preview{
-    ContentView()
-}
-
+   ContentView()
+ }
