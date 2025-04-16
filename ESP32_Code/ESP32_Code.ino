@@ -75,4 +75,8 @@ void loop() {
 
     // do stuff here on connecting
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main
