@@ -113,6 +113,10 @@ class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
             scState = .scanning
         }
     }
+    func setDataport(_ port: Int, _ value: Int) {
+        let byte: [Character] = [Character(UnicodeScalar(port)!), Character(UnicodeScalar(value)!)]
+        BTInterface.bluetooth.characteristicFunctionList.first?.sendData(string: String(byte))
+    }
     func connectionColor(peripheral: CBPeripheral) -> Color {//correlate colors and states
         switch peripheral.state {
         case .connected:
@@ -149,8 +153,6 @@ class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
         func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: (any Error)?) {
             if error != nil {
                 print("error")
-            } else {
-                print("Characteristic wrote")
             }
         }
     }

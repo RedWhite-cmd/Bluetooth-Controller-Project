@@ -24,20 +24,24 @@ class MyCallbacks : public BLECharacteristicCallbacks {
     String arguement = pCharacteristic->getValue();
 
     if (arguement.length() > 0) {
-      Serial.println("*********");
-      Serial.print("Received Value: ");
-      for (int i = 0; i < arguement.length(); i++) {
-        Serial.print(arguement[i]);
+      for (int i = 0; i <= arguement.length(); i = i + 2) {
+        ledcWrite(arguement[i], arguement[i+1]);
+        Serial.println(arguement[i+1] - '0');
       }
-
-      Serial.println();
-      Serial.println("*********");
     }
   }
 };
 
 void setup() {
   Serial.begin(115200);
+
+  pinMode(15, OUTPUT);
+  pinMode(14, OUTPUT);
+  pinMode(13, OUTPUT);
+
+  ledcAttach(15, 500, 8);
+  ledcAttach(14, 500, 8);
+  ledcAttach(13, 500, 8);
 
   // Create the BLE Device
   BLEDevice::init("Blue Sync Device");
