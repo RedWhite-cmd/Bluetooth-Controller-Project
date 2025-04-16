@@ -45,6 +45,11 @@
 			path = ControllerAppUITests;
 			sourceTree = "<group>";
 		};
+		851692802DB01C2300F85C4A /* ESP32_Code */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ESP32_Code;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +82,7 @@
 			children = (
 				0D3F21292D7F540F00891B90 /* ControllerApp */,
 				0D3F213A2D7F541100891B90 /* ControllerAppTests */,
+				851692802DB01C2300F85C4A /* ESP32_Code */,
 				0D3F21442D7F541100891B90 /* ControllerAppUITests */,
 				0D3F21282D7F540F00891B90 /* Products */,
 			);
@@ -155,6 +161,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				0D3F21442D7F541100891B90 /* ControllerAppUITests */,
+				851692802DB01C2300F85C4A /* ESP32_Code */,
 			);
 			name = ControllerAppUITests;
 			packageProductDependencies = (
