@@ -23,89 +23,77 @@ struct ContentView: View {
                     .fullScreenCover(isPresented: $goToBluetooth){
                         BluetoothView()
                     }
-                    Button(action: {
-                        showGuide = true
-                    }) {
-                        Image(systemName: "questionmark.circle")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.blue)
-                            .padding(.top, 10)
-                    }
-                    
-                    
                     
                     Spacer()
                     
                     HStack {
-                        VStack { Spacer(); JoystickView() }
+                        VStack{Spacer(); JoystickView(xDataport: 15,yDataport: 14)}
                         Spacer()
-                        VStack { Spacer(); VerticalSlider() }
+                        VStack{Spacer(); VerticalSlider()}
                         Spacer()
-                        VStack { Spacer(); VerticalSlider() }
+                        VStack{Spacer(); VerticalSlider()}
                         Spacer()
-                        VStack { Spacer(); JoystickView() }
+                        VStack{Spacer(); JoystickView(xDataport: 13,yDataport: 15)}
                     }
-                    
-                    Spacer()
                 }
+                
+                if showGuide {
+                    InfoOverlayView(isShowing: $showGuide)
+                }
+                
             }
-            
-            if showGuide {
-                InfoOverlayView(isShowing: $showGuide)
-            }
-            
         }
     }
-}
-
-
-struct BluetoothView: View {
-    @State private var goToHome = false
-    @ObservedObject var btInterface = BTInterface.bluetooth
-    var body: some View {
-        VStack {
-            
-            Button(action: { goToHome = true }) {
-                Image("User")
-            }
-            .fullScreenCover(isPresented: $goToHome){
-                ContentView()
-            }
-            
-            Spacer()
-            
-            Button(action: {btInterface.service.toggleScan()}){
-                            Text(btInterface.service.scState == .scanning ? "Stop Scan" : "Start Scan")
-                        }
-                        .padding()
-
-            List(btInterface.peripheralsData, id: \.identifier) { peripheral in
-            HStack {
-                Text(peripheral.name ?? "Unknown")
+    
+    
+    struct BluetoothView: View {
+        @State private var goToHome = false
+        @ObservedObject var btInterface = BTInterface.bluetooth
+        var body: some View {
+            VStack {
+                
+                Button(action: { goToHome = true }) {
+                    Image("User")
+                }
+                .fullScreenCover(isPresented: $goToHome){
+                    ContentView()
+                }
                 
                 Spacer()
                 
-                Circle()
-                .fill(btInterface.service.connectionColor(peripheral: peripheral))
-                .frame(width: 10, height: 10)
+                Button(action: {btInterface.service.toggleScan()}){
+                    Text(btInterface.service.scState == .scanning ? "Stop Scan" : "Start Scan")
+                }
+                .padding()
                 
-            Button(action: {btInterface.service.centralManager.connect(peripheral, options: nil)}) {Text("Connect")}
-                            }
-                        }
+                List(btInterface.peripheralsData, id: \.identifier) { peripheral in
+                    HStack {
+                        Text(peripheral.name ?? "Unknown")
                         
-            Button(action: {if let firstCharacteristicFunction = btInterface.characteristicFunctionList.first {
-                                firstCharacteristicFunction.sendData(string: "Button Clicked")
-                            }
-                        }) {
-                            Text("Send Data on Button Click")
-                        }
+                        Spacer()
+                        
+                        Circle()
+                            .fill(btInterface.service.connectionColor(peripheral: peripheral))
+                            .frame(width: 10, height: 10)
+                        
+                        Button(action: {btInterface.service.centralManager.connect(peripheral, options: nil)}) {Text("Connect")}
                     }
-
-        .navigationTitle("Bluetooth")
+                }
+                
+                Button(action: {if let firstCharacteristicFunction = btInterface.characteristicFunctionList.first {
+                    firstCharacteristicFunction.sendData(string: "Button Clicked")
+                }
+                }) {
+                    Text("Send Data on Button Click")
+                }
+            }
+            
+            .navigationTitle("Bluetooth")
+        }
     }
+    
+    
 }
-
 #Preview{
-   ContentView()
- }
+    ContentView()
+}
