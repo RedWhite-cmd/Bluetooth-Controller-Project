@@ -13,6 +13,8 @@ struct ContentView: View {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some View {
         ZStack {
+            Color(.systemBlue).ignoresSafeArea()
+            
             NavigationView {
                 VStack {
                     Spacer()
@@ -22,6 +24,18 @@ struct ContentView: View {
                     }
                     .fullScreenCover(isPresented: $goToBluetooth){
                         BluetoothView()
+                    }
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        showGuide = true
+                    }) {
+                        Image(systemName: "questionmark.circle")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(.blue)
+                            .padding(.top, 10)
                     }
                     
                     Spacer()
@@ -36,15 +50,12 @@ struct ContentView: View {
                         VStack{Spacer(); JoystickView(xDataport: 13,yDataport: 15)}
                     }
                 }
-                
-                if showGuide {
-                    InfoOverlayView(isShowing: $showGuide)
-                }
-                
+            }
+            if showGuide {
+                InfoOverlayView(isShowing: $showGuide)
             }
         }
     }
-    
     
     struct BluetoothView: View {
         @State private var goToHome = false
@@ -91,9 +102,8 @@ struct ContentView: View {
             .navigationTitle("Bluetooth")
         }
     }
-    
-    
 }
+
 #Preview{
     ContentView()
 }

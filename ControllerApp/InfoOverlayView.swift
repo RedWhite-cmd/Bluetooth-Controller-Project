@@ -26,23 +26,16 @@ struct InfoOverlayView: View {
                     .foregroundColor(.black)
 
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("🔵 Bluetooth Icon")
-                        .bold()
-                        .foregroundColor(.black)
-                    Text("Tap this to connect to a Bluetooth device.")
-                        .foregroundColor(.black)
+                    Group {
+                        Text("🔵 Bluetooth Icon").bold().foregroundColor(.black)
+                        Text("Tap this to connect to a Bluetooth device.").foregroundColor(.black)
 
-                    Text("🕹️ Left & Right Joysticks")
-                        .bold()
-                        .foregroundColor(.black)
-                    Text("Use the joysticks to control direction or motion.")
-                        .foregroundColor(.black)
+                        Text("🕹️ Left & Right Joysticks").bold().foregroundColor(.black)
+                        Text("Use these to control direction or motion.").foregroundColor(.black)
 
-                    Text("🎚️ Sliders")
-                        .bold()
-                        .foregroundColor(.black)
-                    Text("These can control analog input like throttle, light intensity, etc.")
-                        .foregroundColor(.black)
+                        Text("🎚️ Sliders").bold().foregroundColor(.black)
+                        Text("These control analog input like throttle or light intensity.").foregroundColor(.black)
+                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -62,6 +55,8 @@ struct InfoOverlayView: View {
     }
 }
 
+
+
 struct GuideStepView: View {
     let title: String
     let description: String
@@ -70,12 +65,16 @@ struct GuideStepView: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(.black) // Changed to black
             Text(description)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.9))
+                .foregroundColor(.black.opacity(0.8)) // Changed to black
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal)
     }
 }
+
+// #Preview {
+  //  InfoOverlayView()
+// }
