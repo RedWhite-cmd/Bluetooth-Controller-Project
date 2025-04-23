@@ -132,8 +132,7 @@ class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
         for (port) in 0...BTInterface.bluetooth.portValues.count-1 {
             byte.append(Character(UnicodeScalar(port)!))
             byte.append(Character(UnicodeScalar(BTInterface.bluetooth.portValues[port])!))
-            //print(("port: " + String(Character(UnicodeScalar(port)!)) + ", value: " + String(BTInterface.bluetooth.portValues[port])))
-            //print(("port: " + String(Character(UnicodeScalar(port)!).asciiValue!) + ", value: " + String(Character(UnicodeScalar(BTInterface.bluetooth.portValues[port])!).asciiValue!)))
+            
         }
         BTInterface.bluetooth.characteristicFunctionList.first?.sendData(string: String(byte))
     }

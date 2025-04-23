@@ -29,9 +29,9 @@ struct ContentView: View {
                     HStack {
                         VStack{Spacer(); JoystickView(xDataport: 15,yDataport: 14)}
                         Spacer()
-                        VStack{Spacer(); VerticalSlider()}
+                        VStack{Spacer(); VerticalSlider(Dataport: 16)}
                         Spacer()
-                        VStack{Spacer(); VerticalSlider()}
+                        VStack{Spacer(); VerticalSlider(Dataport: 17)}
                         Spacer()
                         VStack{Spacer(); JoystickView(xDataport: 13,yDataport: 15)}
                     }
