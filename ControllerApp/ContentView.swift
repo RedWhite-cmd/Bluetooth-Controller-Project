@@ -80,12 +80,6 @@ struct ContentView: View {
                     }
                 }
                 
-                Button(action: {if let firstCharacteristicFunction = btInterface.characteristicFunctionList.first {
-                    firstCharacteristicFunction.sendData(string: "Button Clicked")
-                }
-                }) {
-                    Text("Send Data on Button Click")
-                }
             }
             
             .navigationTitle("Bluetooth")
