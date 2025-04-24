@@ -14,10 +14,11 @@ struct WelcomeView: View {
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                     
+                    
                     Button(action: {
                         path.append("goToController")
                     }) {
-                        Text("Continue")
+                        Text("Basic Control")
                             .font(.title2)
                             .padding()
                             .frame(width: 200)
@@ -25,11 +26,41 @@ struct WelcomeView: View {
                             .foregroundColor(.blue)
                             .cornerRadius(12)
                     }
+                    
+                    
+                    Button(action: {
+                        path.append("goToAdvanced")
+                    }) {
+                        Text("Advanced Control")
+                            .font(.title2)
+                            .padding()
+                            .frame(width: 250)
+                            .background(Color.white)
+                            .foregroundColor(.blue)
+                            .cornerRadius(12)
+                    }
+                    
+                    /*
+                    Button(action: {
+                        path.append("goToHelp")
+                    }){
+                    Text("Help")
+                        .font(.title2)
+                        .padding()
+                        .frame(width: 200)
+                        .background(Color.white)
+                        .foregroundColor(.blue)
+                        .cornerRadius(12)
                 }
-            }
-            .navigationDestination(for: String.self) { value in
-                if value == "goToController" {
-                    ContentView()
+                    */
+                    
+                    .navigationDestination(for: String.self) { value in
+                        if value == "goToController" {
+                            ContentView()
+                        } else if value == "goToAdvanced" {
+                            AdvancedControl()
+                        }
+                    }
                 }
             }
         }

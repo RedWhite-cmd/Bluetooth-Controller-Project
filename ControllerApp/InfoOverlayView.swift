@@ -75,6 +75,15 @@ struct GuideStepView: View {
     }
 }
 
-// #Preview {
-  //  InfoOverlayView()
-// }
+#Preview {
+    struct PreviewWrapper: View {
+        @State private var isShowing = true
+        
+        var body: some View {
+            InfoOverlayView(isShowing: $isShowing)
+        }
+    }
+
+    return PreviewWrapper()
+}
+
