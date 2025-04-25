@@ -33,6 +33,8 @@
 		0D3F21872D8121AB00891B90 /* Exceptions for "ControllerApp" folder in "ControllerApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"Advanced Control/JoystickBlock.swift",
+				"Advanced Control/SliderBlock.swift",
 				Info.plist,
 			);
 			target = 0D3F21262D7F540F00891B90 /* ControllerApp */;
