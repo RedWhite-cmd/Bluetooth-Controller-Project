@@ -8,26 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var goToBluetooth = false
     @State private var showGuide = true
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @Environment(\.presentationMode) private var presentationMode // Used for manual navigation
+
     var body: some View {
         ZStack {
             Color(.systemBlue).ignoresSafeArea()
-            
+
             NavigationView {
                 VStack {
                     Spacer()
-                    
-                    Button(action: { goToBluetooth = true }) {
-                        Image("Bluetooth")
+
+                    Button("Back to Welcome") {
+                        presentationMode.wrappedValue.dismiss()  // This will dismiss the current view and go back to Welcome
                     }
-                    .fullScreenCover(isPresented: $goToBluetooth){
-                        BluetoothView()
-                    }
-                    
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+
                     Spacer()
-                    
+
                     Button(action: {
                         showGuide = true
                     }) {
@@ -37,67 +38,31 @@ struct ContentView: View {
                             .foregroundColor(.blue)
                             .padding(.top, 10)
                     }
+
+                    Spacer()
+
+                    HStack {
+                        VStack { Spacer(); JoystickView(xDataport: 15, yDataport: 14) }
+                        Spacer()
+                        VStack { Spacer(); VerticalSlider(Dataport: 16) }
+                        Spacer()
+                        VStack { Spacer(); VerticalSlider(Dataport: 17) }
+                        Spacer()
+                        VStack { Spacer(); JoystickView(xDataport: 13, yDataport: 15) }
+                    }
                     
                     Spacer()
-                    
-                    HStack {
-                        VStack{Spacer(); JoystickView(xDataport: 15,yDataport: 14)}
-                        Spacer()
-                        VStack{Spacer(); VerticalSlider(Dataport: 16)}
-                        Spacer()
-                        VStack{Spacer(); VerticalSlider(Dataport: 17)}
-                        Spacer()
-                        VStack{Spacer(); JoystickView(xDataport: 13,yDataport: 15)}
-                    }
                 }
             }
+
             if showGuide {
                 InfoOverlayView(isShowing: $showGuide)
             }
         }
-    }
-    
-    struct BluetoothView: View {
-        @State private var goToHome = false
-        @ObservedObject var btInterface = BTInterface.bluetooth
-        var body: some View {
-            VStack {
-                
-                Button(action: { goToHome = true }) {
-                    Image("User")
-                }
-                .fullScreenCover(isPresented: $goToHome){
-                    ContentView()
-                }
-                
-                Spacer()
-                
-                Button(action: {btInterface.service.toggleScan()}){
-                    Text(btInterface.service.scState == .scanning ? "Stop Scan" : "Start Scan")
-                }
-                .padding()
-                
-                List(btInterface.peripheralsData, id: \.identifier) { peripheral in
-                    HStack {
-                        Text(peripheral.name ?? "Unknown")
-                        
-                        Spacer()
-                        
-                        Circle()
-                            .fill(btInterface.service.connectionColor(peripheral: peripheral))
-                            .frame(width: 10, height: 10)
-                        
-                        Button(action: {btInterface.service.centralManager.connect(peripheral, options: nil)}) {Text("Connect")}
-                    }
-                }
-                
-            }
-            
-            .navigationTitle("Bluetooth")
-        }
+        .navigationBarBackButtonHidden(true) // Hide the default back button
     }
 }
 
-#Preview{
+#Preview {
     ContentView()
 }

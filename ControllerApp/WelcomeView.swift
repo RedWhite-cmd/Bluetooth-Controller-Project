@@ -1,65 +1,58 @@
 import SwiftUI
 
+struct NavButtonStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .frame(width: 250)
+            .padding()
+            .background(Color.white)
+            .foregroundColor(.blue)
+            .cornerRadius(12)
+    }
+}
+
 struct WelcomeView: View {
     @State private var path = NavigationPath()
-    
+    @ObservedObject var btInterface = BTInterface.bluetooth
+
     var body: some View {
         NavigationStack(path: $path) {
             ZStack {
                 Color(.systemBlue).ignoresSafeArea()
-                
+
                 VStack(spacing: 40) {
                     Text("Welcome to BlueSync")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
-                    
-                    
-                    Button(action: {
-                        path.append("goToController")
-                    }) {
-                        Text("Basic Control")
-                            .font(.title2)
-                            .padding()
-                            .frame(width: 200)
-                            .background(Color.white)
-                            .foregroundColor(.blue)
-                            .cornerRadius(12)
+
+                    Button("Basic Control") {
+                        path.append("ContentView")
                     }
-                    
-                    
-                    Button(action: {
-                        path.append("goToAdvanced")
-                    }) {
-                        Text("Advanced Control")
-                            .font(.title2)
-                            .padding()
-                            .frame(width: 250)
-                            .background(Color.white)
-                            .foregroundColor(.blue)
-                            .cornerRadius(12)
+                    .modifier(NavButtonStyle())
+
+                    Button("Advanced Control") {
+                        path.append("AdvancedControl")
                     }
+                    .modifier(NavButtonStyle())
                     
-                    /*
-                    Button(action: {
-                        path.append("goToHelp")
-                    }){
-                    Text("Help")
-                        .font(.title2)
-                        .padding()
-                        .frame(width: 200)
-                        .background(Color.white)
-                        .foregroundColor(.blue)
-                        .cornerRadius(12)
+                    // Bluetooth Button
+                    Button("Bluetooth Control") {
+                        btInterface.service.toggleScan()  // Starts Bluetooth scan
+                        path.append("BluetoothControlView")
+                    }
+                    .modifier(NavButtonStyle())
                 }
-                    */
-                    
-                    .navigationDestination(for: String.self) { value in
-                        if value == "goToController" {
-                            ContentView()
-                        } else if value == "goToAdvanced" {
-                            AdvancedControl()
-                        }
+                .navigationDestination(for: String.self) { value in
+                    switch value {
+                    case "ContentView":
+                        ContentView()
+                    case "AdvancedControl":
+                        AdvancedControl()
+                    case "BluetoothControlView":
+                        BluetoothView()
+                    default:
+                        EmptyView()
                     }
                 }
             }
