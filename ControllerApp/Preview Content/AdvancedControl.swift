@@ -20,17 +20,15 @@ enum ControlType: String, CaseIterable, Identifiable {
 
 struct AdvancedControl: View {
     @State private var controls: [DraggableControl] = []
-    @State private var goToBluetooth = false
-    @State private var goToWelcome = false
-    @State private var placementMode: ControlType? = nil  // Active control type to place
-    @Environment(\.presentationMode) private var presentationMode // Used for manual navigation
+    @State private var placementMode: ControlType? = nil
+    @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
         VStack(spacing: 0) {
-            // Top Bar with all controls
+            // Top Bar with controls (no Bluetooth)
             HStack {
                 Button("← Back to Welcome") {
-                    presentationMode.wrappedValue.dismiss()  // Dismiss the view and go back to Welcome
+                    presentationMode.wrappedValue.dismiss()
                 }
                 .foregroundColor(.blue)
 
@@ -45,24 +43,13 @@ struct AdvancedControl: View {
                     placementMode = .slider
                 }
                 .buttonStyle(.bordered)
-
-                Spacer()
-
-                Button(action: { goToBluetooth = true }) {
-                    Image("Bluetooth")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                }
-                .fullScreenCover(isPresented: $goToBluetooth) {
-                    BluetoothView()
-                }
             }
             .padding()
             .background(Color.white.shadow(radius: 2))
 
             Divider()
 
-            // Fullscreen canvas space
+            // Canvas space for draggable controls
             GeometryReader { geo in
                 ZStack {
                     Rectangle()
@@ -108,13 +95,8 @@ struct AdvancedControl: View {
                 }
                 .padding()
             }
-
-            // Add NavigationLink to go to Welcome
-            NavigationLink(destination: WelcomeView(), isActive: $goToWelcome) {
-                EmptyView()
-            }
         }
-        .navigationBarBackButtonHidden(true) // Hide the default back button
+        .navigationBarBackButtonHidden(true)
     }
 
     @ViewBuilder
@@ -131,3 +113,4 @@ struct AdvancedControl: View {
 #Preview {
     AdvancedControl()
 }
+

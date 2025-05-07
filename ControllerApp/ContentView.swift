@@ -9,57 +9,90 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var showGuide = true
-    @Environment(\.presentationMode) private var presentationMode // Used for manual navigation
+    @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
         ZStack {
-            Color(.systemBlue).ignoresSafeArea()
+            // Gradient background
+            LinearGradient(
+                gradient: Gradient(colors: [.blue.opacity(0.3), .purple.opacity(0.3)]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
 
-            NavigationView {
-                VStack {
+            VStack {
+                // Top bar with Info button
+                
                     Spacer()
-
-                    Button("Back to Welcome") {
-                        presentationMode.wrappedValue.dismiss()  // This will dismiss the current view and go back to Welcome
-                    }
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-
-                    Spacer()
-
                     Button(action: {
                         showGuide = true
                     }) {
-                        Image(systemName: "questionmark.circle")
+                        Image(systemName: "questionmark.circle.fill")
                             .resizable()
                             .frame(width: 30, height: 30)
                             .foregroundColor(.blue)
-                            .padding(.top, 10)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .shadow(radius: 3)
+                            .padding()
                     }
+                
 
-                    Spacer()
+                Spacer()
 
-                    HStack {
-                        VStack { Spacer(); JoystickView(xDataport: 15, yDataport: 14) }
-                        Spacer()
-                        VStack { Spacer(); VerticalSlider(Dataport: 16) }
-                        Spacer()
-                        VStack { Spacer(); VerticalSlider(Dataport: 17) }
-                        Spacer()
-                        VStack { Spacer(); JoystickView(xDataport: 13, yDataport: 15) }
-                    }
-                    
-                    Spacer()
+                // Original back button (unchanged)
+                Button("Back to Welcome") {
+                    presentationMode.wrappedValue.dismiss()
                 }
-            }
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
 
+                Spacer(minLength: 20)
+
+                // Controls section
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.ultraThinMaterial)
+                    .shadow(radius: 5)
+                    .overlay(
+                        HStack(spacing: 30) {
+                            VStack(spacing: 8) {
+                                Text("Joystick A").font(.caption)
+                                JoystickView(xDataport: 15, yDataport: 14)
+                            }
+
+                            VStack(spacing: 8) {
+                                Text("Slider A").font(.caption)
+                                VerticalSlider(Dataport: 16)
+                            }
+
+                            VStack(spacing: 8) {
+                                Text("Slider B").font(.caption)
+                                VerticalSlider(Dataport: 17)
+                            }
+
+                            VStack(spacing: 8) {
+                                Text("Joystick B").font(.caption)
+                                JoystickView(xDataport: 13, yDataport: 15)
+                            }
+                        }
+                        .padding()
+                    )
+                    .padding(.horizontal)
+                    .frame(height: 280)
+
+                Spacer()
+            }
+            Spacer()
+
+            // Info overlay
             if showGuide {
                 InfoOverlayView(isShowing: $showGuide)
             }
         }
-        .navigationBarBackButtonHidden(true) // Hide the default back button
+        .navigationBarBackButtonHidden(true)
     }
 }
 

@@ -11,14 +11,13 @@ import CoreBluetooth
 struct BluetoothView: View {
     @ObservedObject var btInterface = BTInterface.bluetooth
     @Environment(\.dismiss) var dismiss  // Used for dismissing the view manually
-    @State private var goToWelcome = false  // State for navigation
 
     var body: some View {
         VStack {
             // Top Bar with Back Button
             HStack {
                 Button("← Back to Welcome") {
-                    goToWelcome = true // Trigger the navigation
+                    dismiss() // Cleanly pop the current view
                 }
                 .foregroundColor(.blue)
 
@@ -70,19 +69,10 @@ struct BluetoothView: View {
                 }
                 .padding()
 
-                Button("Close") {
-                    dismiss()
-                }
-                .padding(.bottom)
             }
             .navigationTitle("Bluetooth")
-            .navigationBarBackButtonHidden(true) // Hide the default back button
+            .navigationBarBackButtonHidden(true)
         }
-        .background(
-            NavigationLink(destination: WelcomeView(), isActive: $goToWelcome) {
-                EmptyView() // Navigate to WelcomeView when goToWelcome is true
-            }
-        )
     }
 
     func connectToPeripheral(_ peripheral: CBPeripheral) {
@@ -93,3 +83,4 @@ struct BluetoothView: View {
 #Preview {
     BluetoothView()
 }
+
