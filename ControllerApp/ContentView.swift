@@ -22,9 +22,20 @@ struct ContentView: View {
             .ignoresSafeArea()
 
             VStack {
-                // Top bar with Info button
-                
+               
+                HStack {
                     Spacer()
+                    
+                    Button("Back to Welcome") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    
+                    Spacer()
+                    
                     Button(action: {
                         showGuide = true
                     }) {
@@ -37,18 +48,9 @@ struct ContentView: View {
                             .shadow(radius: 3)
                             .padding()
                     }
-                
-
-                Spacer()
-
-                // Original back button (unchanged)
-                Button("Back to Welcome") {
-                    presentationMode.wrappedValue.dismiss()
+                    
+                    Spacer()
                 }
-                .padding()
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(10)
 
                 Spacer(minLength: 20)
 

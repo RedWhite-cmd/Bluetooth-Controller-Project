@@ -17,7 +17,7 @@ struct WelcomeView: View {
                     Text("Welcome to BlueSync")
                         .font(.largeTitle)
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(.blue)
                         .shadow(radius: 2)
 
                     VStack(spacing: 20) {
