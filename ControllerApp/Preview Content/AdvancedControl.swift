@@ -7,21 +7,50 @@
 
 import SwiftUI
 
-struct DraggableControl: Identifiable {
-    let id = UUID()
+// MARK: - Models
+
+struct DraggableControl: Identifiable, Codable {
+    let id: UUID
     var type: ControlType
     var position: CGPoint
+
+    init(id: UUID = UUID(), type: ControlType, position: CGPoint) {
+        self.id = id
+        self.type = type
+        self.position = position
+    }
 }
 
-enum ControlType: String, CaseIterable, Identifiable {
+enum ControlType: String, CaseIterable, Identifiable, Codable {
     case joystick, slider
     var id: String { rawValue }
 }
 
+struct SavedLayout: Identifiable, Codable {
+    let id: UUID
+    let name: String
+    let controls: [DraggableControl]
+    
+    init(id: UUID = UUID(), name: String, controls: [DraggableControl]) {
+        self.id = id
+        self.name = name
+        self.controls = controls
+    }
+}
+
+
+// MARK: - Main View
+
 struct AdvancedControl: View {
+    @ObservedObject var layoutStore: LayoutStore
     @State private var controls: [DraggableControl] = []
     @State private var placementMode: ControlType? = nil
     @Environment(\.presentationMode) private var presentationMode
+
+    @State private var savedLayouts: [SavedLayout] = []
+    @State private var showSaveAlert = false
+    @State private var newLayoutName = ""
+    @State private var showRestoreSheet = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -41,6 +70,16 @@ struct AdvancedControl: View {
 
                 Button("Add Slider") {
                     placementMode = .slider
+                }
+                .buttonStyle(.bordered)
+
+                Button("💾 Save Layout") {
+                    showSaveAlert = true
+                }
+                .buttonStyle(.bordered)
+
+                Button("📂 Restore Layout") {
+                    showRestoreSheet = true
                 }
                 .buttonStyle(.bordered)
             }
@@ -97,6 +136,48 @@ struct AdvancedControl: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .alert("Name this layout", isPresented: $showSaveAlert, actions: {
+            TextField("Layout name", text: $newLayoutName)
+            Button("Save") {
+                let layout = SavedLayout(name: newLayoutName, controls: controls)
+                layoutStore.savedLayouts.append(layout)
+                newLayoutName = ""
+            }
+            Button("Cancel", role: .cancel) {
+                newLayoutName = ""
+            }
+        }, message: {
+            Text("You can restore this layout later.")
+        })
+        .sheet(isPresented: $showRestoreSheet) {
+            NavigationView {
+                List {
+                    ForEach(layoutStore.savedLayouts) { layout in
+                        Button(action: {
+                            controls = layout.controls
+                            showRestoreSheet = false
+                        }) {
+                            Text(layout.name)
+                                .padding()
+                        }
+                    }
+                    .onDelete { indices in
+                        layoutStore.savedLayouts.remove(atOffsets: indices)
+                    }
+                }
+                .navigationTitle("Saved Layouts")
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Done") {
+                            showRestoreSheet = false
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        EditButton()
+                    }
+                }
+            }
+        }
     }
 
     @ViewBuilder
@@ -110,7 +191,9 @@ struct AdvancedControl: View {
     }
 }
 
+// MARK: - Previews
+
 #Preview {
-    AdvancedControl()
+    AdvancedControl(layoutStore: LayoutStore())
 }
 

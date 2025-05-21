@@ -2,6 +2,7 @@ import SwiftUI
 
 struct WelcomeView: View {
     @State private var path = NavigationPath()
+    @StateObject private var layoutStore = LayoutStore()
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -41,7 +42,7 @@ struct WelcomeView: View {
                 case "ContentView":
                     ContentView()
                 case "AdvancedControl":
-                    AdvancedControl()
+                    AdvancedControl(layoutStore: LayoutStore())
                 case "BluetoothControlView":
                     BluetoothView()
                 default:
