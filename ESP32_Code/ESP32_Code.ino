@@ -24,17 +24,9 @@ class MyCallbacks : public BLECharacteristicCallbacks {
     String arguement = pCharacteristic->getValue();
 
     if (arguement.length() > 0) {
-      int port = arguement.substring(0,2).toInt();
-      int value = arguement.substring(2,5).toInt();
-      Serial.println(value);
-      if (value >= 20) {
-        digitalWrite(15, HIGH);
-        delayMicroseconds(100); // Approximately 10% duty cycle @ 1KH
-        digitalWrite(15, LOW);
-        delayMicroseconds(1000 - 100);
-      } else {
-        digitalWrite(15, LOW);
-        Serial.println("low");
+      for (int i = 0; i <= arguement.length(); i = i + 2) {
+        ledcWrite(arguement[i], arguement[i+1]);
+        Serial.println(arguement[i+1] - '0');
       }
     }
   }
@@ -43,6 +35,14 @@ class MyCallbacks : public BLECharacteristicCallbacks {
 void setup() {
   Serial.begin(115200);
   pinMode(15, OUTPUT);
+
+  pinMode(15, OUTPUT);
+  pinMode(14, OUTPUT);
+  pinMode(13, OUTPUT);
+
+  ledcAttach(15, 500, 8);
+  ledcAttach(14, 500, 8);
+  ledcAttach(13, 500, 8);
 
   // Create the BLE Device
   BLEDevice::init("Blue Sync Device");
@@ -80,4 +80,8 @@ void loop() {
 
     // do stuff here on connecting
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main

@@ -8,6 +8,12 @@
 import SwiftUI
 
 struct JoystickView: View {
+    var xDataport: Int;
+    var yDataport: Int;
+    init(xDataport: Int, yDataport: Int) {
+        self.xDataport = xDataport;
+        self.yDataport = yDataport;
+    }
     @State private var dragOffset: CGSize = .zero
     
     let maxRadius: CGFloat = 50  // Maximum movement distance
@@ -38,7 +44,10 @@ struct JoystickView: View {
                             } else {
                                 let angle = atan2(value.translation.height, value.translation.width)
                                 dragOffset = CGSize(width: cos(angle) * maxRadius, height: sin(angle) * maxRadius)
+                                
                             }
+                            BTInterface.bluetooth.service.setDataport(xDataport, Int(((dragOffset.width / (maxRadius * 2)) + 0.5) * 255))
+                            BTInterface.bluetooth.service.setDataport(xDataport, Int(((dragOffset.height / (maxRadius * 2)) + 0.5) * 255))
                         }
                         .onEnded { _ in
                             // Animate return to center

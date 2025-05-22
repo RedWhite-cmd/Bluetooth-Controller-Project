@@ -8,85 +8,96 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var goToBluetooth = false
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @State private var showGuide = true
+    @Environment(\.presentationMode) private var presentationMode
+
     var body: some View {
-        NavigationView {
+        ZStack {
+            // Gradient background
+            LinearGradient(
+                gradient: Gradient(colors: [.blue.opacity(0.3), .purple.opacity(0.3)]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
             VStack {
-                Spacer()
-                    Button(action: { goToBluetooth = true }) {
-                        Image("Bluetooth")
-                    }
-                    .fullScreenCover(isPresented: $goToBluetooth){
-                        BluetoothView()
-                    }
-                
-                Spacer()
-                
+               
                 HStack {
-                    VStack{Spacer(); JoystickView()}
                     Spacer()
-                    VStack{Spacer(); VerticalSlider()}
+                    
+                    Button("Back to Welcome") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    
                     Spacer()
-                    VStack{Spacer(); VerticalSlider()}
+                    
+                    Button(action: {
+                        showGuide = true
+                    }) {
+                        Image(systemName: "questionmark.circle.fill")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(.blue)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .shadow(radius: 3)
+                            .padding()
+                    }
+                    
                     Spacer()
-                    VStack{Spacer(); JoystickView()}
                 }
-                Spacer()
-            }
-        }
-    }
-}
 
+                Spacer(minLength: 20)
 
-struct BluetoothView: View {
-    @State private var goToHome = false
-    @ObservedObject var btInterface = BTInterface.bluetooth
-    var body: some View {
-        VStack {
-            
-            Button(action: { goToHome = true }) {
-                Image("User")
-            }
-            .fullScreenCover(isPresented: $goToHome){
-                ContentView()
-            }
-            
-            Spacer()
-            
-            Button(action: {btInterface.service.toggleScan()}){
-                            Text(btInterface.service.scState == .scanning ? "Stop Scan" : "Start Scan")
+                // Controls section
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.ultraThinMaterial)
+                    .shadow(radius: 5)
+                    .overlay(
+                        HStack(spacing: 30) {
+                            VStack(spacing: 8) {
+                                Text("Joystick A").font(.caption)
+                                JoystickView(xDataport: 15, yDataport: 14)
+                            }
+
+                            VStack(spacing: 8) {
+                                Text("Slider A").font(.caption)
+                                VerticalSlider(Dataport: 16)
+                            }
+
+                            VStack(spacing: 8) {
+                                Text("Slider B").font(.caption)
+                                VerticalSlider(Dataport: 17)
+                            }
+
+                            VStack(spacing: 8) {
+                                Text("Joystick B").font(.caption)
+                                JoystickView(xDataport: 13, yDataport: 15)
+                            }
                         }
                         .padding()
+                    )
+                    .padding(.horizontal)
+                    .frame(height: 280)
 
-            List(btInterface.peripheralsData, id: \.identifier) { peripheral in
-            HStack {
-                Text(peripheral.name ?? "Unknown")
-                
                 Spacer()
-                
-                Circle()
-                .fill(btInterface.service.connectionColor(peripheral: peripheral))
-                .frame(width: 10, height: 10)
-                
-            Button(action: {btInterface.service.centralManager.connect(peripheral, options: nil)}) {Text("Connect")}
-                            }
-                        }
-                        
-            Button(action: {if let firstCharacteristicFunction = btInterface.characteristicFunctionList.first {
-                                firstCharacteristicFunction.sendData(string: "Button Clicked")
-                            }
-                        }) {
-                            Text("Send Data on Button Click")
-                        }
-                    }
+            }
+            Spacer()
 
-        .navigationTitle("Bluetooth")
+            // Info overlay
+            if showGuide {
+                InfoOverlayView(isShowing: $showGuide)
+            }
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
-
-#Preview{
+#Preview {
     ContentView()
 }
-

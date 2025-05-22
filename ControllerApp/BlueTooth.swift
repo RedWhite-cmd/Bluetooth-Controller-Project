@@ -9,14 +9,14 @@ import SwiftUI
 import os
 
 
-
-
 class BTInterface: ObservableObject {
     static var bluetooth: BTInterface = BTInterface.init()
     @Published var peripheralsData: [CBPeripheral] = [] //array that holds all peripherals scanned for
     @Published var characteristicFunctionList: [CharacteristicFunction] = [] //makes characteristics function array
     @Published var service: BluetoothService = BluetoothService.init()  //instance of bluetooth service
-    @Published var filterName: String = "Blue Sync Device"
+    @Published var portValues: [Int] = Array(repeating: 0, count: 41)
+    @Published var timer = Timer()
+    
     private init() {}
 }
 @Observable
@@ -25,9 +25,14 @@ class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     public override init() {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)
+        
     }
     func setBluetoothService(referenceToInterface: BTInterface) {
         BTInterface.bluetooth = referenceToInterface
+    }
+    func scheduledTimerWithTimeInterval() {
+        // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
+        BTInterface.bluetooth.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(sendDataportData), userInfo: nil, repeats: true)
     }
     enum ScannerState { //makes a enum about color states
         case scanning, disconnected, error, found
@@ -47,6 +52,9 @@ class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     var centralManager: CBCentralManager! // central manger variable created
     var scState: ScannerState = .disconnected //default state
     var servicesWanted: [CBUUID] = [CBUUID(string: "be5a512c-c0ca-43dd-8774-2d4dc27aeb47")]
+    var filterName: String = "Blue Sync Device"
+    
+    
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch central.state {
         case .unknown:
@@ -61,6 +69,7 @@ class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
             print("central.state is .poweredOff")
         case .poweredOn:
             print("central.state is .poweredOn")
+            scheduledTimerWithTimeInterval()
         @unknown default:
             fatalError()
         } //switch about central manager possible states
@@ -72,7 +81,7 @@ class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
         
         peripheral.delegate = BluetoothService.Peripheralmanager.shared //adds delegate
         //add checks wether device was checked
-        if peripheral.description.contains(BTInterface.bluetooth.filterName) {//removes devices which don't have names
+        if peripheral.description.contains(filterName) {//removes devices which don't have names
             var currentInstance:Int = 0, finalInstance:Int = BTInterface.bluetooth.peripheralsData.count //setup range of the loop
             if finalInstance != 0 {
                 while (currentInstance <= finalInstance) {
@@ -115,6 +124,20 @@ class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
             scState = .scanning
         }
     }
+    func setDataport(_ port: Int, _ value: Int) {
+        BTInterface.bluetooth.portValues[port] = value
+    }
+    @objc func sendDataportData() {
+        var byte: [Character] = []
+        for (port) in 0...BTInterface.bluetooth.portValues.count-1 {
+            byte.append(Character(UnicodeScalar(port)!))
+            byte.append(Character(UnicodeScalar(BTInterface.bluetooth.portValues[port])!))
+            
+        }
+        BTInterface.bluetooth.characteristicFunctionList.first?.sendData(string: String(byte))
+    }
+    
+
     func connectionColor(peripheral: CBPeripheral) -> Color {//correlate colors and states
         switch peripheral.state {
         case .connected:
@@ -151,8 +174,6 @@ class BluetoothService: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
         func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: (any Error)?) {
             if error != nil {
                 print("error")
-            } else {
-                print("Characteristic wrote")
             }
         }
     }

@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct ControllerAppApp: App {
+struct BlueSyncApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WelcomeView()
         }
     }
 }

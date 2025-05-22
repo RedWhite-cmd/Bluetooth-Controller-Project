@@ -58,6 +58,11 @@
 			path = ControllerAppUITests;
 			sourceTree = "<group>";
 		};
+		851692802DB01C2300F85C4A /* ESP32_Code */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ESP32_Code;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +95,7 @@
 			children = (
 				0D3F21292D7F540F00891B90 /* ControllerApp */,
 				0D3F213A2D7F541100891B90 /* ControllerAppTests */,
+				851692802DB01C2300F85C4A /* ESP32_Code */,
 				0D3F21442D7F541100891B90 /* ControllerAppUITests */,
 				0D3F21282D7F540F00891B90 /* Products */,
 			);
@@ -168,6 +174,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				0D3F21442D7F541100891B90 /* ControllerAppUITests */,
+				851692802DB01C2300F85C4A /* ESP32_Code */,
 			);
 			name = ControllerAppUITests;
 			packageProductDependencies = (
@@ -420,12 +427,13 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = epschools.ControllerApp;
+				PRODUCT_BUNDLE_IDENTIFIER = epschools.ControllerApp1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -441,6 +449,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ControllerApp/Preview Content\"";
+				DEVELOPMENT_TEAM = KSQS78QWBK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ControllerApp/Info.plist;
@@ -451,12 +460,13 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = epschools.ControllerApp;
+				PRODUCT_BUNDLE_IDENTIFIER = epschools.ControllerApp1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
