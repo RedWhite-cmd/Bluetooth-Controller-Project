@@ -20,17 +20,18 @@ struct InfoOverlayView: View {
                 }
 
             VStack(spacing: 20) {
-                Text("Welcome to BlueSync!")
+                Text("Welcome to Basic Controls")
                     .font(.title)
                     .bold()
                     .foregroundColor(.black)
 
                 VStack(alignment: .leading, spacing: 10) {
                     Group {
-                        Text("🔵 Bluetooth Icon").bold().foregroundColor(.black)
-                        Text("Tap this to connect to a Bluetooth device.").foregroundColor(.black)
 
-                        Text("🕹️ Left & Right Joysticks").bold().foregroundColor(.black)
+                        Text("🕹️Right Joysticks").bold().foregroundColor(.black)
+                        Text("Use these to control direction or motion.").foregroundColor(.black)
+                        
+                        Text("🕹️Left Joysticks").bold().foregroundColor(.black)
                         Text("Use these to control direction or motion.").foregroundColor(.black)
 
                         Text("🎚️ Sliders").bold().foregroundColor(.black)
