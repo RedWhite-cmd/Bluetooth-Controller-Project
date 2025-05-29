@@ -37,7 +37,7 @@ struct VerticalSlider: View {
                     .onChanged { value in
                         let newValue = min(max(0, (200 - value.location.y) / 2), 100) // Invert Y mapping
                         sliderValue = newValue
-                        BTInterface.bluetooth.service.setDataport(Dataport, Int(((sliderValue / 100)) * 255))
+                        BTInterface.bluetooth.service.setDataport(Dataport, Int(((sliderValue / 100)) * 180))
                     }
             )
         }

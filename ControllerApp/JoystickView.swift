@@ -46,8 +46,8 @@ struct JoystickView: View {
                                 dragOffset = CGSize(width: cos(angle) * maxRadius, height: sin(angle) * maxRadius)
                                 
                             }
-                            BTInterface.bluetooth.service.setDataport(xDataport, Int(((dragOffset.width / (maxRadius * 2)) + 0.5) * 255))
-                            BTInterface.bluetooth.service.setDataport(xDataport, Int(((dragOffset.height / (maxRadius * 2)) + 0.5) * 255))
+                            BTInterface.bluetooth.service.setDataport(xDataport, Int(((dragOffset.width / (maxRadius * 2)) + 0.5) * 180))
+                            BTInterface.bluetooth.service.setDataport(xDataport, Int(((dragOffset.height / (maxRadius * 2)) + 0.5) * 180))
                         }
                         .onEnded { _ in
                             // Animate return to center

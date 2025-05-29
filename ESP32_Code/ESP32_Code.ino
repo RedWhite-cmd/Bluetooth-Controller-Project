@@ -2,6 +2,9 @@
 #include <BLEServer.h>
 #include <BLEUtils.h>
 #include <BLE2902.h>
+#include <ESP32Servo.h>
+
+Servo portArray[35];
 
 BLEServer *pServer = NULL;
 bool deviceConnected = false;
@@ -25,8 +28,7 @@ class MyCallbacks : public BLECharacteristicCallbacks {
 
     if (arguement.length() > 0) {
       for (int i = 0; i <= arguement.length(); i = i + 2) {
-        ledcWrite(arguement[i], arguement[i+1]);
-        Serial.println(arguement[i+1] - '0');
+        portArray[i].write(arguement[i+1]);
       }
     }
   }
@@ -34,16 +36,11 @@ class MyCallbacks : public BLECharacteristicCallbacks {
 
 void setup() {
   Serial.begin(115200);
-  pinMode(15, OUTPUT);
-
-  pinMode(15, OUTPUT);
-  pinMode(14, OUTPUT);
-  pinMode(13, OUTPUT);
-
-  ledcAttach(15, 500, 8);
-  ledcAttach(14, 500, 8);
-  ledcAttach(13, 500, 8);
-
+  portArray[15].attach(15, 1000, 2000);
+  portArray[2].attach(2, 1000, 2000);
+  portArray[4].attach(4, 1000, 2000);
+  
+  
   // Create the BLE Device
   BLEDevice::init("Blue Sync Device");
 
@@ -77,11 +74,8 @@ void loop() {
   }
   // connecting
   if (deviceConnected) {
-
+    
     // do stuff here on connecting
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> main
+
